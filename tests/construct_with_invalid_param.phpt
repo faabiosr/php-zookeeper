@@ -1,7 +1,10 @@
 --TEST--
-Zookeeper Constructor with invalid parameter
+Should construct with invalid parameters
 --SKIPIF--
-<?php if (!extension('zookeeper')) print $skip; ?>
+<?php
+if (!extension_loaded('zookeeper')) {
+    echo 'Zookeeper extension is not loaded'
+};
 --FILE--
 <?php
 $client = new Zookeeper('localhost:2181', 10);

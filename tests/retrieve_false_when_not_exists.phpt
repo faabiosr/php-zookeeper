@@ -1,5 +1,5 @@
 --TEST--
-Should connect the Zookeeper
+Should retrieve false if node not exists
 --SKIPIF--
 <?php
 if (!extension_loaded('zookeeper')) {
@@ -7,7 +7,7 @@ if (!extension_loaded('zookeeper')) {
 };
 --FILE--
 <?php
-$client = new Zookeeper();
-echo gettype($client->connect('localhost:2181'));
+$client = new Zookeeper('localhost:2181');
+var_dump($client->exists('/test'));
 --EXPECT--
-NULL
+bool(false)

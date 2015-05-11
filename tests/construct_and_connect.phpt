@@ -1,7 +1,10 @@
 --TEST--
-Construct Zookeeper and connect
+Should construct and connect the zookeeper
 --SKIPIF--
-<?php if (!extension('zookeeper')) print $skip; ?>
+<?php
+if (!extension_loaded('zookeeper')) {
+    echo 'Zookeeper extension is not loaded'
+};
 --FILE--
 <?php
 $client = new Zookeeper('localhost:2181');

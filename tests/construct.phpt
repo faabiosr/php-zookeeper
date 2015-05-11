@@ -1,5 +1,5 @@
 --TEST--
-Should connect the Zookeeper
+Should construct
 --SKIPIF--
 <?php
 if (!extension_loaded('zookeeper')) {
@@ -8,6 +8,6 @@ if (!extension_loaded('zookeeper')) {
 --FILE--
 <?php
 $client = new Zookeeper();
-echo gettype($client->connect('localhost:2181'));
+echo get_class($client);
 --EXPECT--
-NULL
+Zookeeper
