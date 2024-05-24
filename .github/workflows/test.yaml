@@ -7,6 +7,11 @@ jobs:
   test:
     name: test
     runs-on: [ubuntu-20.04]
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['7.4', '8.1', '8.2', '8.3']
+        zk: ['3.7.2', '3.8.4', '3.9.2']
 
     steps:
       - uses: actions/checkout@v4
@@ -17,16 +22,16 @@ jobs:
 
       - name: Download and install zookeeper client
         run: |
-          sudo ${{runner.workspace}}/php-zookeeper/scripts/zookeeper-client.sh 3.7.1
+          sudo ${{runner.workspace}}/php-zookeeper/scripts/zookeeper-client.sh ${{ matrix.zk }}
 
       - name: Download and run zookeeper server
         run: |
-          sudo ${{runner.workspace}}/php-zookeeper/scripts/zookeeper-server.sh 3.7.1
+          sudo ${{runner.workspace}}/php-zookeeper/scripts/zookeeper-server.sh ${{ matrix.zk }}
 
       - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "7.0"
+          php-version: "${{ matrix.php }}"
           coverage: none
 
       - name: Install extension
