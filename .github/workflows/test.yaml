@@ -1,0 +1,38 @@
+---
+name: test
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    name: test
+    runs-on: [ubuntu-20.04]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update OS
+        run: |
+          sudo ${{runner.workspace}}/php-zookeeper/scripts/library.sh
+
+      - name: Download and install zookeeper client
+        run: |
+          sudo ${{runner.workspace}}/php-zookeeper/scripts/zookeeper-client.sh 3.7.1
+
+      - name: Download and run zookeeper server
+        run: |
+          sudo ${{runner.workspace}}/php-zookeeper/scripts/zookeeper-server.sh 3.7.1
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "7.0"
+          coverage: none
+
+      - name: Install extension
+        run: |
+          phpize
+          sudo ${{runner.workspace}}/php-zookeeper/scripts/pecl-install.sh
+
+      - name: Run tests
+        run:  ${{runner.workspace}}/php-zookeeper/scripts/run-tests.sh
