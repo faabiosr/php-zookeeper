@@ -35,10 +35,10 @@ jobs:
           php-version: "${{ matrix.php }}"
           coverage: none
 
-      #      - name: Install extension
-      #        run: |
-      #          phpize
-      #          sudo ${{runner.workspace}}/php-zookeeper/scripts/pecl-install.sh
-      #
-      #      - name: Run tests
-      #        run:  ${{runner.workspace}}/php-zookeeper/scripts/run-tests.sh
+      - name: Install extension
+        run: |
+          phpize
+          sudo ${{runner.workspace}}/php-zookeeper/scripts/pecl-install.sh
+
+      - name: Run tests
+        run:  ${{runner.workspace}}/php-zookeeper/scripts/run-tests.sh
