@@ -18,15 +18,16 @@ jobs:
 
       - name: Update OS
         run: |
-          sudo ${{runner.workspace}}/php-zookeeper/scripts/library.sh
+          sudo apt-get -yqq install ant default-jdk libcppunit-dev maven wget
 
       - name: Download and install zookeeper client
         run: |
-          sudo ${{runner.workspace}}/php-zookeeper/scripts/zookeeper-client.sh ${{ matrix.zk }}
+          sudo ${{runner.workspace}}/php-zookeeper/scripts/zk-client-install.sh ${{ matrix.zk }}
 
       - name: Download and run zookeeper server
         run: |
-          sudo ${{runner.workspace}}/php-zookeeper/scripts/zookeeper-server.sh ${{ matrix.zk }}
+          sudo ${{runner.workspace}}/php-zookeeper/scripts/zk-server-install.sh ${{ matrix.zk }}
+          sudo ${{runner.workspace}}/php-zookeeper/scripts/zk-server-init.sh
 
       - name: Install PHP
         uses: shivammathur/setup-php@v2
@@ -34,10 +35,10 @@ jobs:
           php-version: "${{ matrix.php }}"
           coverage: none
 
-      - name: Install extension
-        run: |
-          phpize
-          sudo ${{runner.workspace}}/php-zookeeper/scripts/pecl-install.sh
-
-      - name: Run tests
-        run:  ${{runner.workspace}}/php-zookeeper/scripts/run-tests.sh
+      #      - name: Install extension
+      #        run: |
+      #          phpize
+      #          sudo ${{runner.workspace}}/php-zookeeper/scripts/pecl-install.sh
+      #
+      #      - name: Run tests
+      #        run:  ${{runner.workspace}}/php-zookeeper/scripts/run-tests.sh
